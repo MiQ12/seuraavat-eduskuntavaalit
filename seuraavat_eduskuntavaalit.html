@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seuraavat eduskuntavaalit - Laskuri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .progress-container {
+            width: 80%;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 30px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .countdown {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+        .loading-text {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seuraavat eduskuntavaalit</h1>
+    <p> </p>
+    <div class="countdown" id="countdown"></div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <p class="loading-text"></p>
+
+    <script>
+        function updateCountdown() {
+            const electionDate = new Date("2027-04-18T00:00:00").getTime();
+            const startDate = new Date("2023-04-02T00:00:00").getTime();
+            const now = new Date().getTime();
+
+            const timeRemaining = electionDate - now;
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            document.getElementById("countdown").innerText = `${days} päivää ${hours} tuntia ${minutes} minuuttia ${seconds} sekuntia`;
+
+            const totalDuration = electionDate - startDate;
+            const elapsedTime = now - startDate;
+            const progressPercentage = (elapsedTime / totalDuration) * 100;
+            
+            const progressBar = document.getElementById("progress-bar");
+            progressBar.style.width = progressPercentage.toFixed(8) + "%";
+            progressBar.innerText = progressPercentage.toFixed(8) + "%";
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
